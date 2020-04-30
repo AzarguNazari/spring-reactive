@@ -12,11 +12,6 @@ import java.util.Date;
 import java.util.stream.Stream;
 
 
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 28 Feb 2019
- */
 @Slf4j
 public class StaticEventRepository implements EventRepository {
 

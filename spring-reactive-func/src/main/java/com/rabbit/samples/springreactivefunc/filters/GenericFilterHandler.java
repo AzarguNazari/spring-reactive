@@ -9,12 +9,6 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.time.Instant;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 04 Mar 2019
- */
 @Slf4j
 public class GenericFilterHandler {
 

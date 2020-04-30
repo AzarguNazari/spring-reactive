@@ -17,11 +17,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
 
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -39,7 +34,6 @@ public class EmployeeAutomaticFunctionalTest {
 
 	@Before
 	public void setup() {
-
 		// reset in-memory employees map
 		final StaticEmployeeRepository staticEmployeeRepository = applicationContext.getBean(StaticEmployeeRepository.class);
 		staticEmployeeRepository.initData();

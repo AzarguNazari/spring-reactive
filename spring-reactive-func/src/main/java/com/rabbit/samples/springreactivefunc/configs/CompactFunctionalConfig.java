@@ -23,11 +23,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Slf4j
 @Configuration
 @Profile("compact")
@@ -35,103 +30,61 @@ public class CompactFunctionalConfig {
 
 	@Bean
 	EmployeeRepository employeeRepository() {
-
 		return new StaticEmployeeRepository();
 	}
 
 	@Bean
 	EventRepository eventRepository() {
-
 		return new StaticEventRepository();
 	}
 
 	@Bean
 	GenericFilterHandler genericFilterHandler() {
-
 		return new GenericFilterHandler();
 	}
 
 	@Bean
 	EmployeeFilterHandler employeeFilterHandler() {
-
 		return new EmployeeFilterHandler();
 	}
 
 	@Bean
 	EventFilterHandler eventFilterHandler() {
-
 		return new EventFilterHandler();
 	}
 
 	@Bean
 	RouterFunction<ServerResponse> allRoutes() {
-
+		// EMPLOYEES
 		return route()
-
-				// EMPLOYEES
-				.path(
-						"/employees",
-						() -> route()
-								.nest(
-										accept(APPLICATION_JSON),
-										builder ->
-												builder
-														.GET(
-																"/{id}",
-																serverRequest ->
-																		ok()
+				.path("/employees", () -> route().nest(accept(APPLICATION_JSON), builder -> builder
+														.GET("/{id}", serverRequest -> ok()
 																				.contentType(APPLICATION_JSON)
-																				.body(employeeRepository().findById(serverRequest.pathVariable("id")), Employee.class)
-														)
-														.GET(
-																"",
-																serverRequest ->
-																		ok()
+																				.body(employeeRepository().findById(serverRequest.pathVariable("id")), Employee.class))
+														.GET("", serverRequest -> ok()
 																				// .contentType(MediaType.TEXT_EVENT_STREAM)
 																				.contentType(MediaType.APPLICATION_STREAM_JSON)
-																				.body(employeeRepository().findAll(), Employee.class)
-														)
-														.PUT(
-																"",
-																serverRequest ->
-																		ok()
+																				.body(employeeRepository().findAll(), Employee.class))
+														.PUT("", serverRequest -> ok()
 																				.contentType(APPLICATION_JSON)
-																				.body(serverRequest.bodyToMono(Employee.class).doOnNext(employeeRepository()::update), Employee.class)
-														)
+																				.body(serverRequest.bodyToMono(Employee.class).doOnNext(employeeRepository()::update), Employee.class))
 								)
 								.build()
-								.filter(employeeFilterHandler()::requestLogging)
-				)
+								.filter(employeeFilterHandler()::requestLogging))
 
 				// EVENTS
-				.path(
-						"/events",
-						() -> route()
-								.nest(
-										accept(APPLICATION_JSON),
-										builder ->
-												builder
-														.GET(
-																"/{id}",
-																serverRequest ->
-																		ok()
+				.path("/events", () -> route().nest(accept(APPLICATION_JSON), builder -> builder
+														.GET("/{id}", serverRequest -> ok()
 																				.contentType(APPLICATION_JSON)
-																				.body(eventRepository().findById(Long.valueOf(serverRequest.pathVariable("id"))), Event.class)
-														)
-														.GET(
-																"",
-																serverRequest ->
-																		ok()
+																				.body(eventRepository().findById(Long.valueOf(serverRequest.pathVariable("id"))), Event.class))
+														.GET("", serverRequest -> ok()
 																				// .contentType(MediaType.TEXT_EVENT_STREAM)
 																				.contentType(MediaType.APPLICATION_STREAM_JSON)
-																				.body(eventRepository().findAll(), Event.class)
-														)
+																				.body(eventRepository().findAll(), Event.class))
 								).build()
 								.filter(eventFilterHandler()::requestLogging)
 				)
 				.filter(genericFilterHandler()::performanceLogging)
 				.build();
 	}
-
-
 }

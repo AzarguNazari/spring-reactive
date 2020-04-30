@@ -6,12 +6,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 04 Mar 2019
- */
 @Slf4j
 public abstract class ObjectFilterHandler {
 

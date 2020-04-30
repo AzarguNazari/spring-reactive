@@ -23,24 +23,17 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Configuration
 @Profile("extended")
 public class ExtendedFunctionalConfig {
 
 	@Bean
 	EmployeeRepository employeeRepository() {
-
 		return new StaticEmployeeRepository();
 	}
 
 	@Bean
 	EventRepository eventRepository() {
-
 		return new StaticEventRepository();
 	}
 
@@ -57,73 +50,44 @@ public class ExtendedFunctionalConfig {
 
 		// v5.1
 		return route()
-				.GET(
-						"/employees/{id}",
-						serverRequest ->
-								ok()
+				.GET("/employees/{id}", serverRequest -> ok()
 										.contentType(APPLICATION_JSON)
-										.body(employeeRepository().findById(serverRequest.pathVariable("id")), Employee.class)
-				)
+										.body(employeeRepository().findById(serverRequest.pathVariable("id")), Employee.class))
 				.build();
 	}
 
 	@Bean
 	RouterFunction<ServerResponse> getAllEmployeesRoute() {
-
 		return route()
-				.GET(
-						"/employees",
-						serverRequest ->
-								ok()
+				.GET("/employees", serverRequest -> ok()
 										// .contentType(MediaType.TEXT_EVENT_STREAM)
 										.contentType(MediaType.APPLICATION_STREAM_JSON)
-										.body(employeeRepository().findAll(), Employee.class)
-				)
+										.body(employeeRepository().findAll(), Employee.class))
 				.build();
 	}
 
 	@Bean
 	RouterFunction<ServerResponse> updateEmployeeRoute() {
-
-		return route()
-				.PUT(
-						"/employees",
-						accept(APPLICATION_JSON),
-						serverRequest ->
-								ok()
+		return route().PUT("/employees", accept(APPLICATION_JSON), serverRequest -> ok()
 										.contentType(APPLICATION_JSON)
-										.body(serverRequest.bodyToMono(Employee.class).doOnNext(employeeRepository()::update), Employee.class)
-				)
+										.body(serverRequest.bodyToMono(Employee.class).doOnNext(employeeRepository()::update), Employee.class))
 				.build();
 	}
 
 	@Bean
 	RouterFunction<ServerResponse> getEventByIdRoute() {
-
-		return route()
-				.GET(
-						"/events/{id}",
-						serverRequest ->
-								ok()
+		return route().GET("/events/{id}", serverRequest -> ok()
 										.contentType(APPLICATION_JSON)
-										.body(eventRepository().findById(Long.valueOf(serverRequest.pathVariable("id"))), Event.class)
-				)
+										.body(eventRepository().findById(Long.valueOf(serverRequest.pathVariable("id"))), Event.class))
 				.build();
 	}
 
 	@Bean
 	RouterFunction<ServerResponse> getAllEventsRoute() {
-
-		return route()
-				.GET(
-						"/events",
-						serverRequest ->
-								ok()
+		return route().GET("/events", serverRequest -> ok()
 										.contentType(MediaType.TEXT_EVENT_STREAM)
 										// .contentType(MediaType.APPLICATION_STREAM_JSON)
-										.body(eventRepository().findAll(), Event.class)
-				)
+										.body(eventRepository().findAll(), Event.class))
 				.build();
 	}
-
 }
