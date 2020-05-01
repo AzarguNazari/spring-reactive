@@ -19,12 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
@@ -37,56 +31,42 @@ public class EmployeeController {
 
 	@GetMapping("/{id}")
 	private Mono<Employee> getById(@PathVariable final String id) {
-
 		log.info("get employee by id {}", id);
-
 		return getEmployeeRepository().findById(id);
 	}
 
 	// @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	@GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
 	private Flux<Employee> getAll() {
-
 		log.info("get all employees");
-
 		return getEmployeeRepository().findAll();
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	private Mono<Employee> insert(@RequestBody final Employee employee) {
-
 		log.info("insert employee {}", employee);
-
 		return save(employee);
 	}
 
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	private Mono<Employee> update(@RequestBody final Employee employee) {
-
 		log.info("update employee {}", employee);
-
 		return save(employee);
 	}
 
 	@DeleteMapping
 	private Mono<Void> deleteAll() {
-
 		log.info("delete all employees");
-
 		return getEmployeeRepository().deleteAll();
 	}
 
 	@DeleteMapping("/{id}")
 	private Mono<Void> deleteById(@PathVariable final String id) {
-
 		log.info("delete employee by id {}", id);
-
 		return getEmployeeRepository().deleteById(id);
 	}
 
 	private Mono<Employee> save(@RequestBody final Employee employee) {
-
 		return getEmployeeRepository().save(employee);
 	}
-
 }

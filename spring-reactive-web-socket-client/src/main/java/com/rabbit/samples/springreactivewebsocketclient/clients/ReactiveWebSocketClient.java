@@ -12,12 +12,6 @@ import org.springframework.web.reactive.socket.client.WebSocketClient;
 import javax.annotation.PostConstruct;
 import java.net.URI;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
@@ -28,11 +22,8 @@ public class ReactiveWebSocketClient {
 	WebSocketClient webSocketClient;
 
 	public void subscribeToFeeds() {
-
 		log.info("subscribing to feeds...");
-
-		getWebSocketClient()
-				.execute(
+		getWebSocketClient().execute(
 						URI.create("ws://localhost:8080/feeds"),
 						session -> session
 								.receive()
@@ -42,5 +33,4 @@ public class ReactiveWebSocketClient {
 				)
 				.block(); // to subscribe and return the value
 	}
-
 }

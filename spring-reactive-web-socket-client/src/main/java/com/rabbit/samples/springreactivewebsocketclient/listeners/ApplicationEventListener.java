@@ -11,12 +11,6 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 28 Feb 2019
- */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
@@ -36,9 +30,7 @@ public class ApplicationEventListener {
 
 	@EventListener
 	public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-
 		log.info("application ready...");
-
 		getReactiveWebSocketClient().subscribeToFeeds();
 	}
 

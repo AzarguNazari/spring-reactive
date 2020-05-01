@@ -9,12 +9,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 05 Mar 2019
- */
 @Slf4j
 @Configuration
 @Order(99)
@@ -23,9 +17,7 @@ public class R2dbcPostgresConfig extends AbstractR2dbcConfiguration {
 
 	@Override
 	public ConnectionFactory connectionFactory() {
-
 		log.info("create r2dbc POSTGRES connection factory");
-
 		final String msg = "Connecting to PostgreSQL: IP '{}', port '{}', dbName '{}', user '{}', pw '{}'";
 		final String containerIpAddress = "localhost";
 		final int firstMappedPort = 5432;
@@ -46,5 +38,4 @@ public class R2dbcPostgresConfig extends AbstractR2dbcConfiguration {
 						.build()
 		);
 	}
-
 }

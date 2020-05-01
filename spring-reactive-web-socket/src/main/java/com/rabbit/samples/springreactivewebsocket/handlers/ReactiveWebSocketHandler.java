@@ -20,12 +20,6 @@ import java.time.Duration;
 import static java.time.LocalDateTime.now;
 import static java.util.UUID.randomUUID;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
@@ -37,15 +31,10 @@ public class ReactiveWebSocketHandler implements WebSocketHandler {
 
 	@Override
 	public Mono<Void> handle(final WebSocketSession webSocketSession) {
-
 		log.info("handle feed...");
-
-		Flux<String> employeeCreationEvent = Flux.generate(
-				stringSynchronousSink -> sinkEvent(
-						stringSynchronousSink,
-						Event.builder().id(randomUUID().toString()).time(now().toString()).build()
-				)
-		);
+		Flux<String> employeeCreationEvent = Flux.generate(stringSynchronousSink -> {
+					sinkEvent(stringSynchronousSink, Event.builder().id(randomUUID().toString()).time(now().toString()).build());
+				});
 
 		return webSocketSession.send(
 				employeeCreationEvent
@@ -55,7 +44,6 @@ public class ReactiveWebSocketHandler implements WebSocketHandler {
 	}
 
 	private void sinkEvent(final SynchronousSink<String> stringSynchronousSink, final Event event) {
-
 		try {
 			stringSynchronousSink.next(getObjectMapper().writeValueAsString(event));
 		} catch (JsonProcessingException e) {

@@ -9,12 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,9 +17,6 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode
 @ToString
 public class Event {
-
 	String id;
-
 	String time;
-
 }

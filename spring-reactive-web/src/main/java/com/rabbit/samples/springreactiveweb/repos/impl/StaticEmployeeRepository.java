@@ -11,12 +11,6 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Slf4j
 @Component
 public class StaticEmployeeRepository implements EmployeeRepository {
@@ -25,41 +19,31 @@ public class StaticEmployeeRepository implements EmployeeRepository {
 
 	@PostConstruct
 	public void postConstruct() {
-
 		initData();
 	}
 
 	public Flux<Employee> findAll() {
-
 		log.debug("find all");
-
 		return Flux.fromIterable(employeeData.values());
 	}
 
 	public Mono<Employee> findById(final String id) {
-
 		log.debug("find by id {}", id);
-
 		final Employee employee = employeeData.get(id);
 		return employee != null ? Mono.just(employee) : Mono.empty();
 	}
 
 	public Mono<Employee> update(final Employee employee) {
-
 		log.debug("update {}", employee);
-
 		Employee currentEmployee = employeeData.get(employee.getId());
-
 		if(currentEmployee != null) {
 			currentEmployee.setName(employee.getName());
 			return Mono.just(currentEmployee);
 		}
-
 		return Mono.empty();
 	}
 
 	public void initData() {
-
 		employeeData = new HashMap<>();
 		employeeData.put("1", new Employee("1","Employee 1"));
 		employeeData.put("2", new Employee("2","Employee 2"));
@@ -72,5 +56,4 @@ public class StaticEmployeeRepository implements EmployeeRepository {
 		employeeData.put("9", new Employee("9","Employee 9"));
 		employeeData.put("10", new Employee("10","Employee 10"));
 	}
-
 }

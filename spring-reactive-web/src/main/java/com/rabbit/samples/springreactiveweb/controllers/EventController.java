@@ -15,12 +15,6 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.stream.Stream;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 27 Feb 2019
- */
 @Slf4j
 @RestController
 @RequestMapping("/events")
@@ -28,32 +22,21 @@ public class EventController {
 
 	@GetMapping("/{id}")
 	public Mono<Event> getById(@PathVariable final long id){
-
 		log.info("get event by id {}", id);
-
-		return Mono.just(
-			Event.builder().id(id).when(new Date()).build()
-		);
+		Event event = Event.builder().id(id).when(new Date()).build();
+		return Mono.just(event);
 	}
 
 	@GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<Event> getAll() {
-
 		log.info("get all events");
+		Stream<Event> generateEvent = Stream.generate(() -> Event.builder().id(System.currentTimeMillis()).when(new Date()).build());
+		Flux<Event> eventFlux = Flux.fromStream(generateEvent);
 
-		Flux<Event> eventFlux = Flux.fromStream(
-				Stream.generate(
-						() -> Event.builder().id(System.currentTimeMillis()).when(new Date()).build()
-				)
-		);
-
-		Flux<Long> intervalFlux = Flux.interval(
-				Duration.ofSeconds(1)
-		);
+		Flux<Long> intervalFlux = Flux.interval(Duration.ofSeconds(1));
 
 		return Flux
 				.zip(eventFlux, intervalFlux)
 				.map(Tuple2::getT1);
 	}
-
 }

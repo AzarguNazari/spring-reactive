@@ -17,12 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 19 Feb 2019
- */
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
@@ -35,27 +29,20 @@ public class EmployeeController {
 
 	@GetMapping("/{id}")
 	private Mono<Employee> getById(@PathVariable final String id) {
-
 		log.info("get employee by id {}", id);
-
 		return getEmployeeRepository().findById(id);
 	}
 
 	// @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	@GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
 	private Flux<Employee> getAll() {
-
 		log.info("get all employees");
-
 		return getEmployeeRepository().findAll();
 	}
 
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	private Mono<Employee> update(@RequestBody final Employee employee) {
-
 		log.info("update employee {}", employee);
-
 		return getEmployeeRepository().update(employee);
 	}
-
 }

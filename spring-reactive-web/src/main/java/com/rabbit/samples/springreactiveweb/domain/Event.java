@@ -11,22 +11,12 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
-
-/**
- * @author Matteo Baiguini
- * matteo@solidarchitectures.com
- * 27 Feb 2019
- */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-@EqualsAndHashCode
-@ToString
 public class Event {
-
 	long id;
 	Date when;
-
 }
